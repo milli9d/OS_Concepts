@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+# Project ignored dirs
+/build/
+/lib/
+/bin/
+
+*.code-workspace*
