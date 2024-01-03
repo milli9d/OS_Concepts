@@ -1,5 +1,9 @@
 # Prerequisites
 *.d
+*Makefile*
+*CMakeCache*
+*cmake_install*
+
 
 # Compiled Object files
 *.slo
@@ -36,4 +40,4 @@
 /lib/
 /bin/
 
-*.code-workspace*
+*code-workspace*
