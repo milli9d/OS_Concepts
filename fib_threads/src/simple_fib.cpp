@@ -119,6 +119,10 @@ simple_fib_multi_thread::simple_fib_multi_thread(long long unsigned int n, uint1
 	/* init memo */
 	_memo.reserve(n);
 
+	for (int i = 0u; i < 256u; i++) {
+		long long unsigned int out = _fib_r(i);
+	}
+
 	_thread_range_sz = n / _num_threads;
 
 	for (int i = 0; i < _num_threads; i++) {

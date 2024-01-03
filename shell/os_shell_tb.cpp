@@ -1,5 +1,5 @@
 /**
- * @file threads_tb.cpp
+ * @file fib_threads.hpp
  *
  * @brief POSIX Threads testbench
  *
@@ -23,18 +23,7 @@
  * along with OS_Concepts. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <cstdbool>
-#include <cstdio>
-#include <cstdlib>
-
-#include "pthread.h"
-#include "semaphore.h"
-#include "unistd.h"
-
-#include "simple_fib.hpp"
-
-int main(int argc, char **argv)
+int main()
 {
-	os_cpp::simple_fib_multi_thread fib1(100000u, 8u);
 	return 0;
 }
