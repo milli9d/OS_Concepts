@@ -5,12 +5,14 @@
 #include <memory>
 #include <algorithm>
 #include <mutex>
+#include <condition_variable>
 
 #include <unistd.h>
 
-#define TOKEN_LIMIT 10000u
+#define TOKEN_LIMIT 10u
 static volatile uint64_t _tokens = 0u;
 static std::mutex _token_mutex{};
+static std::condition_variable token_available{};
 bool done{};
 
 class producer {
@@ -23,10 +25,10 @@ class producer {
      */
     static void _run(void) {
         while (true) {
+            std::unique_lock<std::mutex> token_lock(_token_mutex);
             if (_tokens < TOKEN_LIMIT) {
-                _token_mutex.lock();
                 printf("Added new token %lu\n", ++_tokens);
-                _token_mutex.unlock();
+                token_available.notify_all();
             } else {
                 done = true;
                 break;
@@ -51,11 +53,9 @@ class consumer {
      */
     static void _run(void) {
         while (true) {
-            if (_tokens) {
-                _token_mutex.lock();
-                printf("Removed a token %lu\n", --_tokens);
-                _token_mutex.unlock();
-            }
+            std::unique_lock<std::mutex> token_lock(_token_mutex);
+            while (!_tokens) { token_available.wait(token_lock); }
+            printf("Removed a token %lu\n", --_tokens);
         }
     }
 
@@ -67,8 +67,8 @@ class consumer {
 };
 
 int main() {
+    consumer cons[16u];
     producer my_prod;
-    consumer cons_1;
 
     while (!done) { std::this_thread::sleep_for(std::chrono::milliseconds(100u)); }
     return 0;
