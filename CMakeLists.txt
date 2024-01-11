@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License along
 # with OS_Concepts. If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.27.2)
+cmake_minimum_required(VERSION 3.25.1)
 
 set(CXX_STANDARD 23)
 set(C_STANDARD 23)
